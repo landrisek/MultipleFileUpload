@@ -44,13 +44,13 @@ class Queues extends BaseQueues
 
 	}
 
-	public function __construct(string $tempDir, DibiConnection $conection)
+	public function __construct(string $tempDir, DibiConnection $connection)
 	{
 		$this->uploadsTempDir = $tempDir;
 		if(!file_exists($this->uploadsTempDir)) {
 			mkdir($this->uploadsTempDir, 0775, TRUE);
 		}
-		$this->conection = $conection;
+		$this->connection = $connection;
 	}
 
 	/**
@@ -58,7 +58,7 @@ class Queues extends BaseQueues
 	 */
 	public function getConnection()
 	{
-		return $this->database;
+		return $this->connection;
 	}
 	
 	
@@ -110,7 +110,7 @@ class Queues extends BaseQueues
 	function getQueues()
 	{
 		$queuesOut = array();
-		$qs = $this->query("SELECT [queueID]
+		$qs = $this->connection->query("SELECT [queueID]
 		  FROM [files]
 		  GROUP BY [queueID]")->fetchAll();
 
